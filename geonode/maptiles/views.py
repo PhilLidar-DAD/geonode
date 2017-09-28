@@ -130,6 +130,7 @@ def process_georefs(request):
     Then gets the filtered georef in CephDataObject.
     Then it adds it to cart using cart_utils's add_to_cart_unique, which checks if it has a duplicate, then it doesnt add it, if no duplicate, then it adds it.
     Then this also outputs a message of the status of the selected georefs; if with duplicates, empty georef, or succesful.
+    Then redirects to geonode.cephgeo.views.get_cart
 
     Triggers:
         `georef_form` is submitted, also see maptiles_map.html and maptiles_geoext_map.html
@@ -229,7 +230,7 @@ def process_georefs(request):
 
 @login_required
 def georefs_validation(request):
-    """Check if user has exceeded the limit for downloads as specified in the local settings
+    """Check if user has exceeded the limit for downloads as specified in the local settings <settings.SELECTION_LIMIT>
 
     This functions validates if the user's size to be added to cart <total_size> + cart's total size <cart_total_size> + FTPRequests since midnight <request_size_mn> exceeds the size limit <settings.SELECTION_LIMIT>
 

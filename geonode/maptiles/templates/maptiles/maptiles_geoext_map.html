@@ -12,27 +12,6 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
 <script type="text/javascript" >
-    function formatBytes(bytes, decimals) {
-        if(bytes == 0)
-            return '0 Bytes';
-        var k = 1024;
-        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        var i = Math.floor(Math.log(bytes) / Math.log(k));
-        return (bytes / Math.pow(k, i)).toPrecision(decimals + 1) + ' ' + sizes[i];
-    }
-
-    function sleep(milliseconds) {
-      var start = new Date().getTime();
-      for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds){
-          break;
-        }
-      }
-    }
-
-
-</script>
-<script type="text/javascript" >
 
 OpenLayers.ImgPath = "{{ STATIC_URL }}geoexplorer/externals/openlayers/theme/default/img";
 OpenLayers.Request.DEFAULT_CONFIG.headers = {
@@ -66,26 +45,23 @@ var tile_list = [];
 var highlight_layer;
 var jurisdiction_geoms = [];
 var tile_cache = [];
-var single_click = true;
+var single_click = true; // To enable the selection by single click
 
 var olGeoJSON = new OpenLayers.Format.GeoJSON();
-//var geoserver = "{{geoserver}}";
-//var geoserver = curr_location+"/geoserver/";
+var _TILE_SIZE = 1000; // 1KM
+var tile_proj = "EPSG:32651" // Gridref's Northings and Eastings for the Philippines
 
-
-// added stuff
-
-var _TILE_SIZE = 1000;
-var tile_proj = "EPSG:32651"
-
-$(document).ready(function(){
-
-        // adds the total request size filtering
+$(document).ready(function(){ // Functions only called after page has loaded
+        /*
+        Function when submit button, in Download Data, is clicked
+        Upon form submission in Download Data tab, it submits a post to /maptiles/validate/. If successful, sends a post to the page (which is process_georefs, see maptiles/views.py), else shows a display_message.
+        georef_area is a hidden text input (declared in maptiles_map.html). It contains a string listing the georefs selected separated by commas.
+        */
        $("#georef_form").submit(function(e) {
            e.preventDefault();
            var self = this;
            var json_parser = new OpenLayers.Format.JSON()
-           var georef_string = document.getElementById("georef_area").getAttribute("value");
+           var georef_string = document.getElementById("georef_area").getAttribute("value"); // input text id=georef_area is where the georefs are stored
            var data_classes = []
            if(document.getElementById("laz").checked){
                data_classes.push("LAZ");
@@ -103,13 +79,7 @@ $(document).ready(function(){
                 {"georefs" : georef_string, "dataclasses": data_classes}).done(function(result){
                    if (result.response)
                         self.submit();
-                        /*$.post('/maptiles/addtocart/',  {   "georef_area" : document.getElementById("georef_area").getAttribute("value"),
-                                                            "dataclasses" : data_classes});*/
                    else {
-                        /*alert("The total file size of this request is "+formatBytes(result.total_size, 2)+
-                                " . You also have a total of "+formatBytes(result.cart_size, 2)+
-                                " in the data cart and FTP requests with a total of "+formatBytes(result.recent_requests_size, 2)+
-                                ". Your request exceeds the 200MB download limit. Please reduce number of selected tiles.");*/
                         display_message("notif", "The total file size of this request is "+formatBytes(result.total_size, 2)+
                                 " . You also have a total of "+formatBytes(result.cart_size, 2)+
                                 " in the data cart and FTP requests with a total of "+formatBytes(result.recent_requests_size, 2)+
@@ -118,7 +88,10 @@ $(document).ready(function(){
                 })
        });
 
-       // enables the submission of bounding box coordinates for selecting tiles
+       /*
+       Function that handles the submit button in the Bounding Box Selection tab.
+       This function calls the selection_bounds function with the box coordinates as the form input
+       */
        $("#bbox_form").submit(function(e){
            e.preventDefault();
            var self= this;
@@ -134,27 +107,37 @@ $(document).ready(function(){
             );
         });
 
+        /*
+        Deprecated. Function to collapse the selection-message, which displays the errors or info when using maptiles
+        */
         $("#selection-message-close").click(function(e){
-            //$("#selection-message").hide();
             document.getElementById("selection-message").style.visibility="collapse";
         });
 });
+
+/*
+Function to check or uncheck checkbox_all. This is called if checkboxes are checked or unchecked
+*/
 function toggle_checkbox_check(source){
-  if (source.checked){
+  if (source.checked){ // if a checkbox is checked
     checkboxes = document.getElementsByName('georef_checkbox');
     var is_checked = false;
-    for(var i = 0; i < checkboxes.length; i++){
+    for(var i = 0; i < checkboxes.length; i++){ // loop between all checkboxes
       is_checked = checkboxes[i].checked;
-      if (!is_checked) break;
+      if (!is_checked) break; // if one of them is unchecked, end loop
     }
-    if(is_checked){
+    if(is_checked){ // if all of them are checked
       document.getElementById('checkbox_all').checked = true;
     }
-  }else{
+  }else{ // if a checkbox is unchecked
     document.getElementById('checkbox_all').checked = false;
   }
 }
 
+/*
+Function to zoom on user jurisdiction's bbox when EPSG:4326 is used
+Used only in Area Search (geocode_form) which uses EPSG:4326
+*/
 function zoomOnBbox(bounds){
     bbox = new OpenLayers.Bounds(bounds);
     map.zoomToExtent(
@@ -189,6 +172,8 @@ function get_corners( x, y ){
 
 /*
 Creates a tile object based on four points
+georef is the coordinates of the upper left corner/point
+computed_corners is a dict of four xy points
 */
 function createTile(computed_corners){
     return {
@@ -199,7 +184,8 @@ function createTile(computed_corners){
 }
 
 /*
-Function for displaying the georefs of selected tiles at the bottom of the page
+Function for displaying the georefs of selected tiles at the div_id
+Uses tile_list as the list of tiles to be displayed
 */
 function display_points(div_id){
     var container = document.getElementById(div_id);
@@ -254,14 +240,12 @@ function display_message(div_id, message){
     container.innerHTML = "<div class=\"alert alert-block announcement alert-warning\" style=\"visibility: visible\">\n"+
         "<a type=\"button\" class=\"close\" data-dismiss=\"alert\" data-dismiss-url=\"#\" href=\"#\">×</a>\n"+
         "<p id=\"selection-message-text\">"+message+"</p>\n";
-    //console.log(text);
-    //text.innerHTML = message;
-    //container.setAttribute("hidden","false");
     container.style.visibility="visible";
 }
 
 /*
 Function for creating a box for highlighting a selected tile
+Georefs use EPSG 32651, while the map uses EPSG 900913, thus the transform function
 */
 function createHighlightBox(feature_attribs){
     var pt1 = new OpenLayers.Geometry.Point(feature_attribs["ul_x"], feature_attribs["ul_y"]).transform(new OpenLayers.Projection("EPSG:32651"), new OpenLayers.Projection("EPSG:900913"));
@@ -303,9 +287,8 @@ function wfs_proto_creator(layer_request, srs, outformat){
 }
 
 /*
-Filters tiles if they intersect the geometries which are part of the jurisdiction
+Function for checking if tile is in jurisdiction's geometries/boundingbox
 */
-
 function isInJurisdiction(tile){
     var jurisdiction_name = "{{jurisdiction_name}}";
     var j_layer = jurisdiction_args["map"]["layers"].filter(function(l){ return l["name"] ==jurisdiction_name })[0];
@@ -322,6 +305,9 @@ function isInJurisdiction(tile){
     }
 }
 
+/*
+[Deprecated] Filters tiles if they intersect the geometries which are part of the jurisdiction
+*/
 function jurisdictionFilter(geoms, feature_list){
     var tile_list = [];
     for (var i=0;i<feature_list.length;i++){
@@ -334,6 +320,9 @@ function jurisdictionFilter(geoms, feature_list){
     return tile_list;
 }
 
+/*
+Function used in checking if a tile has data (hasDataFiltering)
+*/
 function tileHasData (feature){
     var data_filter = new OpenLayers.Filter.Logical({
         type: "||",
@@ -373,7 +362,8 @@ function hasDataFiltering( f_list){
 }
 
 /*
-Function which retrieves selected tiles and filters them if  they don't have data or they are outside the jurisdiction
+Function which retrieves selected tiles and filters them if they don't have data or they are outside the jurisdiction's geometries/bounding box
+Then adds them to highlight_layer, which is the layer displayed showing selected tiles
 */
 function filterSelectedTiles(tile_filter, single_click, send_notice, epsgproj){
   var wfs_proto = wfs_proto_creator("{{feature_tiled}}", epsgproj,"json");
@@ -387,7 +377,7 @@ function filterSelectedTiles(tile_filter, single_click, send_notice, epsgproj){
         console.log(start);
         var added_count = 0;
         feature_out = olGeoJSON.read(response.priv.responseText);
-        var tiles = hasDataFiltering(feature_out);
+        var tiles = hasDataFiltering(feature_out); // store in a list tiles with data
         //if (jurisdiction_geoms.length > 0){
           for (var i=0;i<tiles.length;i++){
             var corners = {
@@ -396,13 +386,12 @@ function filterSelectedTiles(tile_filter, single_click, send_notice, epsgproj){
               "ll_x": tiles[i].data.MINX, "ll_y": tiles[i].data.MINY,
               "lr_x": tiles[i].data.MAXX,"lr_y": tiles[i].data.MINY
             }
-            var tile = createTile(corners);
+            var tile = createTile(corners); // Object with attributes; georef, corners, and features
+            // Check if selected tile is already in tile_list
             if (find_georef(tile_list, tile.georef) < 0){
               console.log("tile is not yet in the list");
               tiles[i].geometry.calculateBounds();
-              /*tiles[i].geometry.setBounds(tiles[i].geometry.bounds.transform(
-                new OpenLayers.Projection("EPSG:32651"), new OpenLayers.Projection("EPSG:4326")
-              ));*/
+              // Check if selected tile is within jurisdiction geometries/bounding box
               if (isInJurisdiction(tiles[i])){
                 console.log("tile is within jurisdiction");
                 tile_list.push(tile);
@@ -412,7 +401,7 @@ function filterSelectedTiles(tile_filter, single_click, send_notice, epsgproj){
               }else{
                 console.log("tile is not within jurisdiction");
               }
-            }else if (single_click){
+            }else if (single_click){ // If it is already in tile_list, remove it
               console.log("tile is already in the list");
               removeHighlight(tile.georef,highlight_layer);
             }
@@ -420,7 +409,7 @@ function filterSelectedTiles(tile_filter, single_click, send_notice, epsgproj){
           }
         //}
       }
-      display_points("point_display");
+      display_points("point_display"); // Show list of georefs in div
       single_click=true;
       end = new Date().getTime();
       console.log(end);
@@ -483,7 +472,7 @@ function removeHighlight(georef, vec_layer){
 }
 
 /*
- Function in getting total_data_size_clicked
+ Function in getting total_data_size_clicked and displays it to data_size_display
 */
 function getDataSizeClicked(georefsclicked){
     $.post('/maptiles/datasize/',
@@ -503,7 +492,7 @@ function formatBytes(bytes,decimals) {
    var k = 1000; // or 1024 for binary
    var dm = decimals + 1 || 3;
    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-   var i = Math.floor(Math.log(bytes) / Math.log(k));
+   var i = Math.floor(Math.log(bytes) / Math.log(k)); // The number of times 1024 could be raised before reaching <bytes>. Rounded down.
    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 /*
@@ -583,7 +572,7 @@ Ext.onReady(function (){
             displayProjection: new OpenLayers.Projection("EPSG:4326")
         })
     );
-    //definition of the world map layer
+    // // OSM configuration for using 3rd party OSM sources
     // var mq_layer = new OpenLayers.Layer.XYZ(
     //     "OpenStreetMap",
     //     [
@@ -610,8 +599,7 @@ Ext.onReady(function (){
     //     }
     // );
 
-    // apply local osm layer group
-    //siteurl_osm = '{{ siteurl }}' +  '/geoserver/osm/wms?';
+    // Apply local OSM layer group, which is stored in geoserver
     siteurl_osm = '{{ geoserver_url }}' + 'osm/wms?'
     var local_osm = new OpenLayers.Layer.WMS(
         "WMS OSM Layer",
