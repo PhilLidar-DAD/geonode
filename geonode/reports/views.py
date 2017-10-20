@@ -29,12 +29,9 @@ from django.template import RequestContext
 
 from pprint import pprint
 
-from actstream.models import Action
 from geonode.eula.models import AnonDownloader
-
 from geonode.reports.models import DownloadCount, SUCLuzViMin
 from collections import OrderedDict, Counter
-from geonode.datarequests.models.data_request import DataRequest
 from geonode.datarequests.models.profile_request import ProfileRequest
 from geonode.people.models import OrganizationType
 from geonode.datarequests.models import LipadOrgType
@@ -45,7 +42,24 @@ from datetime import datetime
 from unidecode import unidecode
 
 def report_distribution_status(request, template='reports/distribution_status.html'):
-    #LAYER
+    """Renders all the graphs in reports/distribution_status/
+
+    This function computes then formats the numbers and stores them in a list for plotly to read.
+    The dictionary keys are date (yearmonth) and download_type (Layers: LAZ, Ortho, DTM, DSM, etc. & Requests: Academe, Internation NGO, etc)
+
+    Before this automation, the tally of downloads was handled by the data operations team.
+    Their numbers was dumped to DownloadCount Model using a script (monthly_dl_count.py).
+    Now, the DownloadCount Model is filled up every midnight by a python script (daily_download_count.py) scheduled to run by crontab.
+    The scripts can be found in scripts/utils/reports/
+
+    Models used are listed above in the imports
+
+    URL:
+        url(r'^distribution_status/', 'geonode.reports.views.report_distribution_status', name='distribution_status'),
+
+    """
+    ### Cumulative LiPAD Downloads
+    ### Stores in a list with keys as date (yearmonth) and downloaded layer data type (LAZ, Ortho, DTM, DSM, etc). Value is the dl count
     monthly_count = {}
     monthly_list = DownloadCount.objects.filter(chart_group='monthly').order_by('date')
     for eachinlist in monthly_list:
@@ -55,6 +69,8 @@ def report_distribution_status(request, template='reports/distribution_status.ht
             monthly_count[eachinlist.date.strftime('%Y%m')][eachinlist.download_type] = 0
         monthly_count[eachinlist.date.strftime('%Y%m')][eachinlist.download_type] += int(eachinlist.count)
 
+    ### SUC Download Type
+    ### Stores in a list with keys as LuzViMin, SUC (CSU, UPLB, etc.), and date (yearmonth). Value is the dl count
     luzvimin_count = {'Luzon':{},'Visayas':{},'Mindanao':{},'Others':{}}
     luzvimin_list = DownloadCount.objects.filter(chart_group='luzvimin').order_by('category','date')
     for eachinlist in luzvimin_list:
@@ -69,6 +85,8 @@ def report_distribution_status(request, template='reports/distribution_status.ht
             luzvimin_count[luzvimin][eachinlist.category][eachinlist.date.strftime('%Y%m')] = 0
         luzvimin_count[luzvimin][eachinlist.category][eachinlist.date.strftime('%Y%m')] += int(eachinlist.count)
 
+    ### Cumulative LiPAD Downloads in Area and Total Downloads in Area
+    ### Stores in a list with keys as date (yearmonth), and downloaded layer data type. Value is dl area in sq kms
     area_count = {}
     area_list = DownloadCount.objects.filter(chart_group='area').order_by('date')
     for eachinlist in area_list:
@@ -78,8 +96,8 @@ def report_distribution_status(request, template='reports/distribution_status.ht
             area_count[eachinlist.date.strftime('%Y%m')][eachinlist.download_type] = 0
         area_count[eachinlist.date.strftime('%Y%m')][eachinlist.download_type] += int(eachinlist.count)
 
+    ### Gets data from other lipad instances
     urls_to_visit = ['https://lipad-fmc.dream.upd.edu.ph/']
-#    urls_to_visit = []
     for each_url in urls_to_visit:
         try:
             response = urllib2.urlopen(each_url + 'api/download_count/')

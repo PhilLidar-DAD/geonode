@@ -23,6 +23,10 @@ from geonode.people.models import Profile
 from datetime import datetime
 
 class DownloadCount(models.Model):
+    """Download counts of layers per data type, chart group, category, and date.
+
+    Objects are created in the scripts/utils/reports/daily_download_count.py. This model is used for the creation of charts in the url /reports/distribution_status/
+    """
     date = models.DateTimeField( default=datetime.now)
     category = models.CharField(_('Category'), max_length=100)
     chart_group = models.CharField(_('Chart Group'), max_length=100)
@@ -30,11 +34,18 @@ class DownloadCount(models.Model):
     count = models.IntegerField(_('Count'))
 
 class SUCLuzViMin(models.Model):
+    """Lists of Provinces and what SUC and what LuzViMin are they.
+    """
     province =  models.CharField(_('Province'), max_length=100)
     suc = models.CharField(_('Suc'), max_length=100)
     luzvimin = models.CharField(_('LuzViMin'), max_length=100)
 
 class DownloadTracker(models.Model):
+    """Lists the layer or document downloaded by authenticated users.
+
+    Objects for this models are created upon clicking of layer/document type to download (PDF, JPG, PNG, etc.).
+
+    """
     timestamp = models.DateTimeField(default=datetime.now)
     actor = models.ForeignKey(
         Profile
