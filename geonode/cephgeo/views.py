@@ -36,6 +36,7 @@ from geonode.tasks.update import update_fhm_metadata_task, style_update, seed_la
 from geonode.tasks.update import pl2_metadata_update, sar_metadata_update
 from geonode.tasks.update import layer_default_style, floodplain_keywords
 from geonode.tasks.update import update_lidar_coverage_task
+from geonode.cephgeo.geometadata.utils import lidar_coverage_data
 from geonode.base.enumerations import CHARSETS
 
 from django.conf import settings
@@ -524,7 +525,8 @@ def management(request):
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def update_lidar_coverage(request):
-    update_lidar_coverage_task.delay()
+#    update_lidar_coverage_task.delay()
+    lidar_coverage_data()
     messages.error(request, "Updating LiDAR Coverage")
     return HttpResponseRedirect(reverse('data_management'))
 
