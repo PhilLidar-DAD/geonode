@@ -261,8 +261,9 @@ def data_request_view(request):
                 data_request_obj.save()
                 data_request_obj.profile_request = profile_request_obj
                 data_request_obj.save()
-                profile_request_obj.data_request= data_request_obj
-                profile_request_obj.save()
+                profile_request_get = ProfileRequest.objects.get(id=profile_request_obj.id)
+                profile_request_get.data_request= data_request_obj
+                profile_request_get.save()
             data_request_obj.save()
             if saved_layer:
                 data_request_obj.jurisdiction_shapefile = saved_layer
@@ -274,6 +275,20 @@ def data_request_view(request):
             pprint("request has been succesfully submitted")
             if profile_request_obj and not request.user.is_authenticated():
             #    request_data.send_verification_email()
+                if profile_request_get.status == "approved":
+                    data_request_obj.set_status('approved')
+                    data_request_obj.profile = profile_request_get.profile
+                    data_request_obj.send_approval_email(data_request_obj.profile.username)
+                    if data_request_obj.jurisdiction_shapefile:
+                        data_request_obj.assign_jurisdiction() #assigns/creates jurisdiction object
+                        assign_grid_refs.delay(data_request_obj.profile)
+                    else:
+                        try:
+                            uj = UserJurisdiction.objects.get(user=data_request_obj.profile)
+                            uj.delete()
+                        except ObjectDoesNotExist as e:
+                            pprint("Jurisdiction Shapefile not found, nothing to delete. Carry on")
+                    messages.info(request, "Request "+str(data_request_obj.pk)+" has been approved.")
 
                 out['success_url'] = reverse('datarequests:email_verification_send')
 
@@ -284,6 +299,8 @@ def data_request_view(request):
                 out['success_url'] = reverse('home')
 
                 out['redirect_to'] = reverse('home')
+
+                data_request_obj.profile = request.user
 
                 if data_request_obj.jurisdiction_shapefile:
                     data_request_obj.assign_jurisdiction() #assigns/creates jurisdiction object
@@ -363,7 +380,8 @@ def email_verification_confirm(request):
                 #Requests auto approval
                 if profile_request.email in Profile.objects.all().values_list('email', flat=True):
                     messages.info(request,'The email for this profile request is already in use')
-                    pprint(request,'The email for this profile request is already in use')
+                    pprint(request)
+                    pprint('The email for this profile request is already in use')
                     return render(
                         request,
                         'datarequests/registration/verification_failed.html',
