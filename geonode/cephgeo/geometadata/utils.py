@@ -24,7 +24,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "geonode.settings")
 
 
 def create_object(params):
-    obj, created = LidarCoverageBlock.objects.get_or_create(uid=params['uid'])
+    obj, created = LidarCoverageBlock.objects.get_or_create(uid=params['uid'],block_name=params['block_name'])
     obj.area=params['area'],
     obj.block_name=params['block_name']
     obj.processor=params['processor']
@@ -101,6 +101,7 @@ def lidar_coverage_data():
         # print params
         print 'Creating object...'
         try:
+            print 'UID:%s \t block_name: %s' % (params['uid'],params['block_name'])
             obj = create_object(params)
             print '#' * 40
             print i, '/', feature_count
