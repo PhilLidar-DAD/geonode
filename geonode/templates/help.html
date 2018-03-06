@@ -57,7 +57,7 @@
     </ol>
     <br>
     <a id="downloadfhm" style="display:block;position:relative;top:-100px;visibility:hidden;"></a>
-    <h5 id="download-fhm">Downloading Flood Hazard Maps and other vector/layers via Data Store/Layers</h5>
+    <h4 id="download-fhm">Downloading Flood Hazard Maps and other vector/layers via Data Store/Layers</h5>
     <ol>
       <li>View the desired layer on a map.</li>
       <img id="helpimg" src="{{STATIC_URL}}geonode/img/help/help_6.png">
@@ -72,7 +72,7 @@
     </ol>
     <br>
     <a id="downloadtiles" style="display:block;position:relative;top:-100px;visibility:hidden;"></a>
-    <h5 id="download-tiles">Downloading other datasets via Data Store/Data Tiles</h5>
+    <h4 id="download-tiles">Downloading other datasets via Data Store/Data Tiles</h5>
     <ol>
       <li>Login to LiPAD.</li>
       <li>At the top of the page, click <strong>Datastore</strong> -> <strong>Data Tiles</strong> to display the tiled data map available for selection</li>
@@ -104,8 +104,9 @@
         <li><strong>Log in</strong> to the DREAM Phil-LiDAR FTP server and navigate to the download folder. The file will be downloaded from the FTP client.</li>
       </ul>
     </ol>
+    <br>
     <a id="downloadftp" style="display:block;position:relative;top:-100px;visibility:hidden;"></a>
-    <h5 id="download-ftp">Download Files Using FTP</h5>
+    <h4 id="download-ftp">Download Files Using FTP</h5>
     <p><strong>Requirements:</strong></p>
     <p>FTP Client - download via <a href="http://filezilla-project.org" title="FTP Client"> filezilla</a></p>
     <p>7zip software - download via <a href="http://7-zip.org/" title="7-zip"> 7zip</a></p><br>
@@ -114,16 +115,15 @@
       <li>
         <p>Open Filezilla. For quick connect, input the following details:</p>
 
-          <p>&nbsp;&nbsp;&nbsp;Host: <samp>ftpes://ftp.dream.upd.edu.ph</samp></p>
+          <p>&nbsp;&nbsp;&nbsp;Host: <samp>sftp://sftp.dream.upd.edu.ph</samp></p>
           <p>&nbsp;&nbsp;&nbsp;Username: <samp> username </samp></p>
           <p>&nbsp;&nbsp;&nbsp;Password: <samp> password </samp></p>
 
         <img id="helpimg" src="{{STATIC_URL}}geonode/img/help/help_20.png">
         <p>To use the site manager, click <strong>File</strong>><strong>Site Manager.</strong> Click <strong>New Site</strong> button and input the following details:</p>
 
-          <p>&nbsp;&nbsp;&nbsp;Host: <samp>ftp.dream.upd.edu.ph</samp></p>
-          <p>&nbsp;&nbsp;&nbsp;Protocol: <samp>FTP - File Transfer Protocol</samp></p>
-          <p>&nbsp;&nbsp;&nbsp;Encryption: <samp>Require explicit FTP over TLS</samp></p>
+          <p>&nbsp;&nbsp;&nbsp;Host: <samp>sftp.dream.upd.edu.ph</samp></p>
+          <p>&nbsp;&nbsp;&nbsp;Protocol: <samp>SFTP - SSH File Transfer Protocol</samp></p>
           <p>&nbsp;&nbsp;&nbsp;Logon Type: <samp>Normal</samp></p>
           <p>&nbsp;&nbsp;&nbsp;Username: <samp>username</samp></p>
           <p>&nbsp;&nbsp;&nbsp;Password: <samp>password</samp></p>
@@ -131,7 +131,7 @@
       </li>
       <li><strong>Downloading Data.</strong> To download files, navigate to the download folder and double-click filename/s needed under Remote Site and the file download will start. Files can be downloaded compressed, using 7-zip, or uncompressed.</li>
       <p>Ex.</p>
-      <samp>DFTP/PL1/username/DL/DAD/LiPAD_requests/ftprequest_2015-07-28_2203</samp>
+      <samp>/Others/username/DL/DAD/LiPAD_requests/ftprequest_2015-07-28_2203</samp>
       <img id="helpimg" src="{{STATIC_URL}}geonode/img/help/help_22.png">
     </ol>
     {% endblocktrans %}

@@ -1,0 +1,26 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% block title %} {% trans "Data Tiles Selection" %} - {{ block.super }} {% endblock %}
+
+{% block body_outer %}
+<div class="page-header">
+  <h2>{% trans "Data Tiles temporarily unavailable." %}</h2>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <p>The Data Tiles section of LiPAD is temporarily unavailable to enable our team to fix the issues that this feature had experienced.  We are currently working to reupload the data tiles for better performance and to provide a better service in the future. We apologize for the inconvenience. Thank you for your usual support and understanding. </p>
+
+    {% blocktrans %}
+    <br>
+    <h3 id="registration-process">Manual Data Tiles Request</h3>
+
+    <p>Users who want to download data tiles must go through the data request process as described in <a href="https://lipad.dream.upd.edu.ph/help/#registrationprocess">Help - Data Request Registration Process</a>, the user must e-mail the <a href="mailto:lipad@dream.upd.edu.ph">LiPAD Team &lt;lipad@dream.upd.edu.ph&gt;</a> to notify the LiPAD Team of the intent to download the blocks within their uploaded shapefile. Available personnel will evaluate the data request and upload the requested data tiles to the FTP server. </p>
+
+    <p>After the data requested is uploaded to the FTP server, the personnel will e-mail the user notifying them that their data request is already available for downloading from the FTP server. The e-mail will contain instructions on how to access LiPAD's FTP server. Instructions to access the FTP server is also available at <a href="https://lipad.dream.upd.edu.ph/help/#downloadftp">Help - Download files using FTP</a></p>
+
+    <p>Note: Some data requests will need approval from the Program Leader before the data request is uploaded to the FTP server.</p>
+     {% endblocktrans %}
+</div>
+</div>
+{% endblock %}

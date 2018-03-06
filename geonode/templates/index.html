@@ -123,7 +123,8 @@
           <h4 class="list-group-item-heading">Legend</h4>
           <p></p>
 
-          <p>{% get_public_location "%s" as pl %}<img id="legend_icon" src="{{pl}}wms?request=GetLegendGraphic&amp;format=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=geonode:philgrid&amp;legend_options=fontAntiAliasing:true;fontSize:12;forceLabels:on"></p>
+          <!--<p>{% get_public_location "%s" as pl %}<img id="legend_icon" src="{{pl}}wms?request=GetLegendGraphic&amp;format=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=geonode:philgrid&amp;legend_options=fontAntiAliasing:true;fontSize:12;forceLabels:on"></p>-->
+          <p>{% get_public_location "%s" as pl %}<img id="legend_icon" src="/static/geonode/img/philgrid_legend.png"></p>
       </li>
     </div>
 

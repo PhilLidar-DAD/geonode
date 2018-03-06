@@ -133,3 +133,17 @@ scripts/utils/osm
 
 # ignore zipped shapefiles for local osm setup
 scripts/utils/osm
+
+*.save
+*.log.txt
+*.log
+*.bak
+*.orig
+*.reg
+
+text_logs/
+text_logs/*
+
+postgresql-backup-*.json
+
+philgrid.json

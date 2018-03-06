@@ -1,0 +1,11 @@
+--- geonode/settings.py
++++ geonode/settings.py
+@@ -745,6 +745,8 @@
+     'KML',
+     'View in Google Earth',
+     'Tiles',
++    'GML',
++    'GZIP'
+ ]
+ 
+ ACCOUNT_NOTIFY_ON_PASSWORD_CHANGE = False

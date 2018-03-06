@@ -910,7 +910,6 @@ CELERY_CREATE_MISSING_QUEUES = True
 CELERY_IMPORTS = (
     'geonode.tasks.deletion',
     'geonode.tasks.update',
-    'geonode.tasks.ceph_update',
     'geonode.tasks.email',
     'geonode.tasks.ftp',
     'geonode.tasks.mk_folder',
@@ -918,6 +917,7 @@ CELERY_IMPORTS = (
     'geonode.tasks.jurisdiction2',
     'geonode.tasks.requests',
     'geonode.tasks.users',
+    'geonode.tasks.ceph_update',
 )
 
 
@@ -945,7 +945,7 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 TILED_SHAPEFILE = "geonode:philgrid_20160301"
 TILED_SHAPEFILE_TEST = "geonode:index"
 EULA_URL = '/eula/eula_form/'
-SELECTION_LIMIT = 209715200
+SELECTION_LIMIT = 1073741824
 
 MUNICIPALITY_SHAPEFILE = 'geonode:phl_adm2_municipalities_utm_z51n'
 # Upload permissions on file

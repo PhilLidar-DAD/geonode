@@ -1,3 +1,4 @@
+# coding: utf-8
 from __future__ import with_statement
 
 import logging
@@ -271,14 +272,14 @@ data is found under the DL directory path [{1}]".format(
         mail_msg = """\
 Data request named [{0}] for user [{1}] has been succesfully processed.
 
-With your LiPAD username and password, please login with an FTPES client
-like Filezilla, to ftpes://ftp.dream.upd.edu.ph. Your requested datasets
+With your LiPAD username and password, please login with an SFTP client
+like Filezilla, to sftp://sftp.dream.upd.edu.ph. Your requested datasets
 will be in a new folder named [{0}] under the directory [DL/DAD/] and will be \
 available for 30 days only due to infrastructure limitations.
 
-FTP Server: ftpes://ftp.dream.upd.edu.ph/
-Folder location: /mnt/ftp_pool/FTP/Others/{1}/DL/DAD/lipad_requests/{0}
-Encryption: Require explicit FTP over TLS
+SFTP Server: sftp://sftp.dream.upd.edu.ph/
+SFTP Ports: Port 22 or 443 (for restrictive firewalls)
+Folder location: /Others/{1}/DL/DAD/lipad_requests/{0}
 Logon Type: Normal
 Username: {1}
 Password: [your LiPAD password]
@@ -594,8 +595,9 @@ def upload_xml(folder_dir,obj_dl_list):
             "Floodplain": xml_block['Floodplain'],
         }
 
+        xml_context 
         xml_file_dest = os.path.join(folder_dir,grid_ref_file_name+'.xml')
         #tree.write(grid_ref_file_name+".xml",xml_declaration=True,encoding='utf-8',method="xml")
 
         #Fabric append which appends/creates a file
-        upload_template("/opt/geonode/geonode/tasks/ftp_metadata.xml",xml_file_dest,xml_context)
+        upload_template("/opt/geonode/geonode/tasks/ftp_metadata.xml",xml_file_dest,xml_context.decode('ascii','ignore'))

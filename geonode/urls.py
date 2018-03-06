@@ -57,6 +57,7 @@ urlpatterns = patterns('',
                        # Static pages
                        url(r'^/?$', 'geonode.views.philgrid', name='home'),
                        url(r'^help/$', TemplateView.as_view(template_name='help.html'), name='help'),
+                       
                        url(r'^developer/$', TemplateView.as_view(template_name='developer.html'), name='developer'),
                        url(r'^about/$', TemplateView.as_view(template_name='about.html'), name='about'),
 
@@ -121,6 +122,8 @@ urlpatterns = patterns('',
 
 					   #MapTiles
 					   url(r'^maptiles/',include("geonode.maptiles.urls")),
+                       #url(r'^maptiles/', TemplateView.as_view(template_name='maptiles.html'), name='maptiles'),
+                       url(r'^unavailable/', TemplateView.as_view(template_name='maptiles.html'), name='unavailable'),
 
                        # Meta
                        url(r'^lang\.js$', TemplateView.as_view(template_name='lang.js', content_type='text/javascript'),
