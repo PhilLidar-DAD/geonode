@@ -15,7 +15,7 @@ from geonode.cephgeo.forms import DataInputForm, DataDeleteForm
 from geonode.cephgeo.models import CephDataObject, FTPRequest, FTPStatus, FTPRequestToObjectIndex, UserTiles
 from geonode.cephgeo.utils import get_data_class_from_filename
 from geonode.tasks.ftp import process_ftp_request
-from geonode.tasks.ceph_update import ceph_metadata_remove, ceph_metadata_update
+from geonode.tasks.ceph_update import ceph_metadata_remove, input_metadata_update
 
 from geonode.cephgeo.cart_utils import *
 
@@ -110,7 +110,6 @@ def file_list_ceph(request, sort=None):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
 def file_list_geonode(request, sort=None, grid_ref=None):
 
     if sort not in utils.SORT_TYPES and sort != None:
@@ -165,6 +164,7 @@ def file_list_geonode(request, sort=None, grid_ref=None):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def file_list_json(request, sort=None, grid_ref=None):
 
     if sort not in utils.SORT_TYPES and sort != None:
@@ -230,7 +230,7 @@ def data_input(request):
             print 'update_grid:', update_grid
             print '*' * 40
 
-            # ceph_metadata_update.delay(uploaded_objects_list, update_grid)
+            input_metadata_update.delay(form.cleaned_data['data'], update_grid)
 
             ctx = {
                 'charsets': CHARSETS,
