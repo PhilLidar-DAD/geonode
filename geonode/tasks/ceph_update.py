@@ -25,6 +25,12 @@ from pyproj import transform, Proj
 logger = get_task_logger("geonode.tasks.ceph_update")
 
 
+def chunks(l, n):
+    """Yield successive n-sized chunks from l."""
+    for i in xrange(0, len(l), n):
+        yield l[i:i + n]
+
+
 def transform_log_to_list(log):
     log_list = []
     log = log.strip()
@@ -523,16 +529,23 @@ def grid_feature_update(gridref_dict_by_data_class, job, field_value=1):
     for feature_attr, grid_ref_list in gridref_dict_by_data_class.iteritems():
         logger.info("Updating feature attribute [{0}]".format(feature_attr))
         print 'INDEX NESTED GRID UPDATE:', x
-        philgrid_update_result = nested_grid_update(grid_ref_list, feature_attr, field_value)
-
-        if not philgrid_update_result:
-            error_occurred = True
-            print 'ERROR'
-            print 'philgrid_update_result:', philgrid_update_result
-        else:
-            logger.info("Finished task for feature [{0}]".format(feature_attr))
+        grid_ref_chunks = chunks(grid_ref_list, 512)
+        chunk_ct = 1
+        for grid_ref_chunk in grid_ref_chunks:
+            logger.info("Feature: {0} GRIDREF: {1}".format(feature_attr, grid_ref_chunk))
+            logger.info("Task for feature [{0}] chunk [{1}]".format(feature_attr, chunk_ct))
+            philgrid_update_result = nested_grid_update(grid_ref_chunk, feature_attr, field_value)
+            if not philgrid_update_result:
+                error_occurred = True
+                print 'ERROR'
+                print 'philgrid_update_result:', philgrid_update_result
+                logger.error('philgrid_update_result:', philgrid_update_result)
+            else:
+                logger.info("Finished task for feature [{0}] chunk [{1}]".format(feature_attr, chunk_ct))
+            chunk_ct = chunk_ct + 1
 
     update_job_status(job, error_occurred)
+
 
 @task(name='geonode.tasks.ceph_update.grid_feature_update_dem', queue='update')
 def grid_feature_update_dem(gridref_dict_by_data_class, field_value=1):
@@ -545,11 +558,16 @@ def grid_feature_update_dem(gridref_dict_by_data_class, field_value=1):
     for feature_attr, grid_ref_list in gridref_dict_by_data_class.iteritems():
         logger.info("Updating feature attribute [{0}]".format(feature_attr))
         print 'INDEX NESTED GRID UPDATE:', x
-        philgrid_update_result = nested_grid_update(grid_ref_list, feature_attr, field_value)
-
-        if not philgrid_update_result:
-            print 'ERROR'
-            print 'philgrid_update_result:', philgrid_update_result
-        else:
-            logger.info("Finished task for feature [{0}]".format(feature_attr))
-    #update_job_status(job, error_occurred)
+        grid_ref_chunks = chunks(grid_ref_list, 512)
+        chunk_ct = 1
+        for grid_ref_chunk in grid_ref_chunks:
+            logger.info("Feature: {0} GRIDREF: {1}".format(feature_attr, grid_ref_chunk))
+            logger.info("Task for feature [{0}] chunk [{1}]".format(feature_attr, chunk_ct))
+            philgrid_update_result = nested_grid_update(grid_ref_chunk, feature_attr, field_value)
+            if not philgrid_update_result:
+                print 'ERROR'
+                print 'philgrid_update_result:', philgrid_update_result
+                logger.error('philgrid_update_result:', philgrid_update_result)
+            else:
+                logger.info("Finished task for feature [{0}] chunk [{1}]".format(feature_attr, chunk_ct))
+            chunk_ct = chunk_ct + 1

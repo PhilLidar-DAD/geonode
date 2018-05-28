@@ -31,12 +31,12 @@ from geonode.base.models import TopicCategory
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-input_directory = "/home/geonode/documents/tech_reports/BATU/"
+input_directory = "/home/geonode/documents/tech_reports/CSU/"
 
 def upload_map(map_obj):
 	keyword_list = []
 
-	year = map_obj.split("_")[1].replace(".pdf","")
+	year = map_obj.split(" ")[1].replace(".pdf","")
 
 	# Add keywords
 	keyword_list.append("LiDAR Survey")
