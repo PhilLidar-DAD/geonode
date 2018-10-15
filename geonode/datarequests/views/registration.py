@@ -399,25 +399,28 @@ def email_verification_confirm(request):
                     profile_request.save()
                     profile_request.profile.save()
 
-                    profile_request.set_status('approved')
-
-                    if profile_request.data_request:
-                        profile_request.data_request.profile = profile_request.profile
-
-                        if profile_request.data_request.jurisdiction_shapefile:
-                            profile_request.data_request.assign_jurisdiction() #assigns/creates jurisdiction object
-                            assign_grid_refs.delay(profile_request.data_request.profile)
-                        else:
-                            try:
-                                uj = UserJurisdiction.objects.get(user=profile_request.data_request.profile)
-                                uj.delete()
-                            except ObjectDoesNotExist as e:
-                                pprint("Jurisdiction Shapefile not found, nothing to delete. Carry on")
-                        profile_request.data_request.save()
-                        profile_request.data_request.set_status('approved')
-                        profile_request.data_request.send_approval_email(profile_request.data_request.profile.username)
-                        pprint(request, "Request "+str(profile_request.data_request.pk)+" has been approved.")
-                    profile_request.send_approval_email()
+                    if profile_request.org_type == 'Private Entities':
+                        profile_request.set_status('rejected')
+                        profile_request.send_rejection_email()
+                    else:
+                        profile_request.set_status('approved')
+                        if profile_request.data_request:
+                            profile_request.data_request.profile = profile_request.profile
+    
+                            if profile_request.data_request.jurisdiction_shapefile:
+                                profile_request.data_request.assign_jurisdiction() #assigns/creates jurisdiction object
+                                assign_grid_refs.delay(profile_request.data_request.profile)
+                            else:
+                                try:
+                                    uj = UserJurisdiction.objects.get(user=profile_request.data_request.profile)
+                                    uj.delete()
+                                except ObjectDoesNotExist as e:
+                                    pprint("Jurisdiction Shapefile not found, nothing to delete. Carry on")
+                            profile_request.data_request.save()
+                            profile_request.data_request.set_status('approved')
+                            profile_request.data_request.send_approval_email(profile_request.data_request.profile.username)
+                            pprint(request, "Request "+str(profile_request.data_request.pk)+" has been approved.")
+                        profile_request.send_approval_email()
 
                 pprint(email+" "+profile_request.status)
                 profile_request.send_new_request_notif_to_admins()

@@ -2,7 +2,7 @@
 #!/usr/bin/python
 # Geonode
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 # Setup GeoNode environment
 import os
@@ -31,19 +31,17 @@ from geonode.base.models import TopicCategory
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-input_directory = "/home/geonode/documents/tech_reports/CSU/"
+input_directory = "/home/geonode/documents/tech_reports/VSU/"
 
 def upload_map(map_obj):
 	keyword_list = []
-
-	year = map_obj.split(" ")[1].replace(".pdf","")
 
 	# Add keywords
 	keyword_list.append("LiDAR Survey")
 	keyword_list.append("Flood Mapping")
 	keyword_list.append("Phil-LiDAR 1")
 
-	map_title = "{0}".format(year)
+	map_title = map_obj.replace(".pdf","")
 
 	print map_obj, ": map title:", map_title
 
@@ -53,7 +51,7 @@ def upload_map(map_obj):
 	c = Document.objects.create(
 	doc_file=f,
 	owner=superuser,
-	title=map_title)
+	title=map_title, doc_type='report')
 
 	for keyword in (keyword_list):
 		print map_obj, ': map keyword:', keyword
