@@ -367,16 +367,37 @@ class ProfileRequest(BaseRequest, StatusModel):
     def send_new_request_notif_to_admins(self, request_type="Profile"):
         text_content = email_utils.NEW_REQUEST_EMAIL_TEXT.format(
             request_type,
+            self.username,
+            self.first_name,
+            self.middle_name,
+            self.last_name,
+            self.org_type,
+            self.organization,
+            self.funding_source,
+            self.email,
+            self.contact_number,
             settings.BASEURL + self.get_absolute_url()
         )
 
         html_content=email_utils.NEW_REQUEST_EMAIL_HTML.format(
             request_type,
+            self.username,
+            self.first_name,
+            self.middle_name,
+            self.last_name,
+            self.org_type,
+            self.organization,
+            self.funding_source,
+            self.email,
+            self.contact_number,
             settings.BASEURL + self.get_absolute_url(),
             settings.BASEURL + self.get_absolute_url()
         )
-
-        email_subj = "[LiPAD] A new request has been submitted"
+        
+        email_subj = "[LiPAD] New request from {} {} {} / {}".format(self.first_name, self.middle_name, self.last_name, self.organization)
+        pprint(email_subj)
+        pprint(text_content) 
+        pprint(html_content) 
         self.send_email(email_subj,text_content,html_content)
 
     def send_verification_email(self):

@@ -1,12 +1,35 @@
 NEW_REQUEST_EMAIL_TEXT="""
     Hello LiPAD Admins,
-    A new {} request has been submitted. You can view the request using the following link:
+    A new {} request has been submitted. 
+
+    Profile Request:
+    Username: {}
+    Name: {} {} {}
+    Organization Type: {}
+    Organization: {}
+    Funding Source: {}
+    E-mail: {}
+    Contact No.: {}
+   
+    You can view the request using the following link:
     {}
     """
 
 NEW_REQUEST_EMAIL_HTML="""
     <p>Hello LiPAD Admins,</p>
-    <p>A new {} request has been submitted. You can view the request using the following link:</p>
+    <p>A new {} request has been submitted. </p>
+
+    <h1>Profile Request Details:</h1>
+    <hr>
+    <p>Username: {} </p>
+    <p>Name: {} {} {} </p>
+    <p>Organization Type: {} </p>
+    <p>Organization: {} </p>
+    <p>Funding Source: {} </p>
+    <p>E-mail: {} </p>
+    <p>Contact No.: {} </p>
+
+    <p>You can view the request using the following link:</p>
     <p><a rel="nofollow" target="_blank" href="{}">{}</a></p>
     """
 
