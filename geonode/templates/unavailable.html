@@ -1,0 +1,197 @@
+{% extends "site_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load base_tags %}
+
+{% block title %} {% trans "Welcome!" %} - {{ block.super }} {% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block middle %}
+   {{ block.super }}
+  {% block hero %}
+
+{% endblock %}
+
+<div class="container">
+<body>
+    <div class="row body-top col-md-6 center-text home-facets" style="">
+      <div style"width:100%;padding-bottom: 10px;">
+        <a href="https://lipad-fmc.dream.upd.edu.ph/layers/?limit=100&offset=0&keywords__slug__in=flood-hazard-map" class="button" style="background:#1097e6;background-image:linear-gradient(to bottom, #25a5f0, #1097e6 66%, #0f8ad3); border: 1px solid; border-radius:5px;line-height:90px; color:white;padding:10px; text-shadow:0 -1px rgba(0, 0, 0, 0.4);border-color:#0d78b6 #0d78b6 #0b689e;box-shadow:inset 0 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 1px 2px rgba(0, 0, 0, 0.25);font-size:38px;">Download Flood Hazard Maps</a>
+        <a data-toggle="modal" data-target="#modal-fhm" href="">How To Download Flood Hazard Maps</a>
+        <hr style="border: 0;height: 1px;background: #333;background: -webkit-gradient(linear, left top, right top, color-stop(0%,hsla(0,0%,0%,0)), color-stop(50%,hsla(0,0%,0%,.75)), color-stop(100%,hsla(0,0%,0%,0)));background: -webkit-linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);background:    -moz-linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);background:     -ms-linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);background:      -o-linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%);background:         linear-gradient(left, hsla(0,0%,0%,0) 0%, hsla(0,0%,0%,.75) 50%, hsla(0,0%,0%,0) 100%); margin: 10px 0px 2px 0px;">
+      </div>
+          <h1 class="no-margin-top">{% trans "Welcome to LiPAD" %}</h1>
+          <p>
+              {% blocktrans %}
+              <abbr title="LiDAR Portal for Archiviing and Distribution">LiPAD</abbr> serves as the primary data access and distribution center of the <a href="https://www.dream.upd.edu.ph/about/phil-lidar-1/" title="About the Phil-LiDAR 1 Program">Phil-LiDAR 1</a> and <a href="https://www.dream.upd.edu.ph/about/phil-lidar-2/" title="About the Phil-LiDAR 2 Program">Phil-LiDAR 2</a> Programs, a Department of Science and Technology initiative that engages the University of the Philippines and fifteen (15) Higher Education Institutions (HEIs) throughout the country, with the aim to produce detailed flood hazard and resource maps using LiDAR technology.
+              {% endblocktrans %}
+            </p><p>
+              {% blocktrans %}
+                The datasets, which include Digital Elevation Models (DEMs), Digital Terrain Models (DTMs), Orthophotos, Classified LAZ, Flood Hazard Maps and Resource Maps, are available for download in open and GIS-ready formats, for use by Local Government Units (LGUs), National Government Agencies (NGAs), members of the academe, and researchers, among others.
+              {% endblocktrans %}
+            </p>
+
+          <div class="col-md-4  border=0 text-center" >
+        <p>
+          {% get_fhm_fmc_url "%s" as fhm %}
+          <a href="{{fhm}}" title="Download Municipal Flood Hazard Maps">
+            <i class="fa fa-square-o fa-5x rotate-45"></i>
+          </a>
+        </p>
+        <h2>
+          {% get_fhm_fmc_url "%s" as fhm %}
+          <a href="{{fhm}}" title="Download Municipal Flood Hazard Maps">
+            {% get_fhm_count "%d" as fhm_count %}
+             <p class="text-center" >{{ fhm_count }} </p>
+          </a>
+        </h2>
+        <h4 class="text-center">Flood Hazard Maps</h4>
+      </div>
+
+      <div class="col-md-4 border=0 text-center" >
+        <p>
+          <a href="layers/?limit=100&amp;offset=0&amp;keywords__slug__in=phillidar2" title="Download Resource Layers">
+            <i class="fa fa-map-marker fa-5x"></i>
+          </a>
+        </p>
+        <h2>
+          <a href="layers/?limit=100&amp;offset=0&amp;keywords__slug__in=phillidar2" title="Download Resource Layers">
+            {% get_resourceLayers_count "%d" as rl_count %}
+            <p class="text-center">{{ rl_count }} </p>
+          </a>
+        </h2>
+        <h4 class="text-center">Resource Layers</h4>
+      </div>
+
+      <div class="col-md-4 border=0 text-center" >
+        <p><a href="/maptiles/" title="Download DEMs, Classified LAZ and Orthophotos"><i class="fa fa-globe fa-5x"></i></a></p>
+        <h2>
+          <p class="text-center"><a href="/maptiles/" title="Download DEMs, Classified LAZ and Orthophotos">37,557 sq. km.</a></p>
+        </h2>
+        <h4 class="text-center">Total LiDAR Coverage</h4>
+      </div>
+
+       <div class="col-md-4 border=0" style="">
+        {% blocktrans %}
+        <h4 style="margin-top:15px;">How to get data</h4>
+        <p>
+          <ol>
+            <li><a href="/requests/register/profile_request/">Register</a></li>
+            <li><a href="/help#registrationprocess">Request</a></li>
+            <li><a href="/help#downloadtiles">Download</a></li>
+          </ol>
+        <p>
+        {% endblocktrans %}
+      </div>
+
+      <div class="col-md-4 border=0" style="">
+        {% blocktrans %}
+        <h4 style="margin-top:15px;">Demo Videos</h4>
+        <p>
+          <a data-toggle="modal" data-target="#modal-reg" href="">Register to LiPAD</a>
+          <br>
+          <a data-toggle="modal" data-target="#modal-fhm" href="">Download Flood Hazard Maps</a>
+        <br>
+          <a data-toggle="modal" data-target="#modal-data" href="">Download LiDAR Data Tiles</a>
+        </p>
+        {% endblocktrans %}
+      </div>
+
+      <div class="col-md-4 border=0" style="" >
+
+        <h4 style="margin-top:15px; text-center">OGC Services</h4>
+        <p>
+          <ol>
+            {% get_public_location "%s" as pl %}
+            <li><a href="{{pl}}ows?service=wms&amp;version=1.1.0">WMS 1.1.1</a></li>
+            <li><a href="{{pl}}ows?service=wms&amp;version=1.3.0">WMS 1.3.0</a></li>
+            <li><a href="{{pl}}ows?service=wfs&amp;version=1.0.0">WFS 1.0.0</a></li>
+            <li><a href="{{pl}}ows?service=wfs&amp;version=1.1.0">WFS 1.1.0</a></li>
+            <li><a href="{{pl}}ows?service=wfs&amp;version=2.0.0">WFS 2.0.0</a></li>
+          </ol>
+        <p>
+
+      </div>
+    </div>
+
+    <div class="col-md-6 pull-right row body-top">
+    {% include "phil-ext.html" %}
+        <div id="preview_map" >
+      </div>
+      <li class="list-group-item legend">
+          <h4 class="list-group-item-heading">Legend</h4>
+          <p></p>
+
+          <!--<p>{% get_public_location "%s" as pl %}<img id="legend_icon" src="{{pl}}wms?request=GetLegendGraphic&amp;format=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=geonode:philgrid&amp;legend_options=fontAntiAliasing:true;fontSize:12;forceLabels:on"></p>-->
+          <p>{% get_public_location "%s" as pl %}<img id="legend_icon" src="/static/geonode/img/philgrid_legend.png"></p>
+      </li>
+    </div>
+
+</body>
+</div>
+
+<div class="modal fade" id="modal-reg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Register to LiPAD" %}</h4>
+      </div>
+      <div class="modal-body">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/DdLAjPg1oyQ" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-fhm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Download Flood Hazard Maps" %}</h4>
+      </div>
+      <div class="modal-body">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/3HpiZ9pg4fU" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Download LiDAR Data Tiles" %}</h4>
+      </div>
+      <div class="modal-body">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/TqTbxk0fF_A" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "_modal_announcements.html" %}
+  {% endblock %}
+
+  {% block mainbody %}
+
+{% endblock %}
+{% block extra_script %}
+  <script type="text/javascript">
+    $(window).load(function(){
+        $('#modal-announcements').modal('toggle');
+    });
+  </script>
+{% endblock extra_script %}
