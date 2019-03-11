@@ -1059,7 +1059,7 @@ CELERYBEAT_SCHEDULE = {
 }
 # CEPHACCESS/FTP Settings
 CEPHACCESS_HOST = 'cephaccess@cephaccess.prd.dream.upd.edu.ph'
-CEPHACCESS_DL_SCRIPT = '/home/cephaccess/cephaccess-ftp-scripts/download.py'
+CEPHACCESS_DL_SCRIPT = '/home/cephaccess/ftp-scripts/download.py'
 CEPHACCESS_PYTHON = '/home/cephaccess/.virtualenvs/cephaccess/bin/python2'
 FTP_HOST = 'root@ftp-nas.prd.dream.upd.edu.ph'
 FTP_SCRIPT = '/mnt/misc/scripts/sysad-tools/set-acls/createdir.sh'

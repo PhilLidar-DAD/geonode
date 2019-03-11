@@ -1,25 +1,70 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
-{% block title %} {% trans "Data Tiles Selection" %} - {{ block.super }} {% endblock %}
+{% block title %} {% trans "Temporarily unavailable" %} - {{ block.super }} {% endblock %}
 
 {% block body_outer %}
 <div class="page-header">
-  <h2>{% trans "Data Tiles temporarily unavailable." %}</h2>
+  <h2>{% trans "LiPAD Portal  temporarily unavailable." %}</h2>
 </div>
 <div class="row">
   <div class="col-md-8">
-    <p>The Data Tiles section of LiPAD is temporarily unavailable to enable our team to fix the issues that this feature had experienced.  We are currently working to reupload the data tiles for better performance and to provide a better service in the future. We apologize for the inconvenience. Thank you for your usual support and understanding. </p>
+    <p> LiPAD is currently experiencing issues with Account Creation and its GeoServer backend. Our team is working to identify the issue and correct it. However, due to an understaffed team, we might take long to fix the issue.  We might also resort to redeployng LiPAD to another server to be able to update its dependencies and for more optimal performance. </p>
+
+    <p> We apologize for the inconvenience. Thank you for your usual support and understanding. </p>
 
     {% blocktrans %}
     <br>
-    <h3 id="registration-process">Manual Data Tiles Request</h3>
+    <h3>Flood Hazard Maps</h3>
+    <p>Flood Hazard Maps are still available at the <a href="https://lipad-fmc.dream.upd.edu.ph/layers">LiPAD FMC website</a>, without registration. Please proceed to the subsite if you are interested on downloading Flood Hazard Maps. </p>
 
-    <p>Users who want to download data tiles must go through the data request process as described in <a href="https://lipad.dream.upd.edu.ph/help/#registrationprocess">Help - Data Request Registration Process</a>, the user must e-mail the <a href="mailto:lipad@dream.upd.edu.ph">LiPAD Team &lt;lipad@dream.upd.edu.ph&gt;</a> to notify the LiPAD Team of the intent to download the blocks within their uploaded shapefile. Available personnel will evaluate the data request and upload the requested data tiles to the FTP server. </p>
+    <h3>Manual Data Requests</h3>
 
-    <p>After the data requested is uploaded to the FTP server, the personnel will e-mail the user notifying them that their data request is already available for downloading from the FTP server. The e-mail will contain instructions on how to access LiPAD's FTP server. Instructions to access the FTP server is also available at <a href="https://lipad.dream.upd.edu.ph/help/#downloadftp">Help - Download files using FTP</a></p>
+    <p> Since the portal is experiencing issues with account registration, may we request all data requests be coursed through our official e-mail address:  <a href="mailto:lipad@dream.upd.edu.ph">LiPAD Team &lt;lipad@dream.upd.edu.ph&gt;</a> with a subject of "[LiPAD] Data Request from (Your Name) / (Your organization or affiliation)". Kindly provide the following details on your e-mail:
 
-    <p>Note: Some data requests will need approval from the Program Leader before the data request is uploaded to the FTP server.</p>
+    <ol type="1">
+       <li> Full Name </li>
+       <li> Office / Organization </li>
+       <li> Organization Type - Local NGO / NGA - (Department) / Academic (Students/Researchers/Faculty/Foundations) / LGU / International NGO / PHIL-LiDAR SUC / Others </li>
+       <li> Local or foreign entity with respect to the Philippines </li>
+       <li> E-mail address </li> 
+       <li> Contact Number </li> 
+       <li> Project Name / Research or Dissertation Title</li>
+       <li> Project Summary / Research Abstract </li>
+       <li> Use/purpose of the data - DRRM, Planning, Management, Exploration, Mapping, others </li>
+       <li> Type of Data requested: LiDAR Orthophotos, LAZ, DSM, DTM Files, PHIL-LiDAR 2 Datasets, etc.</li>
+       <li> Intended Use of the data - Commercial or noncommercial</li> 
+    </ol> 
+
+    <p> Please attach a scanned <b>signed</b> formal letter addressed to: </p>
+
+    <span> Dr. Louie Balicanta &nbsp;</span><br/>
+    <span> Director, UP Training Center for Applied Photogrammetry and Geodesy&nbsp;</span><br/>
+    <span> 312-316 National Engineering Center, Juinio Hall&nbsp;</span><br/>
+    <span> University of the Philippines, Diliman, Quezon City &nbsp;</span><br/>
+    <br/<
+    <p> State your intent to request data, project background/summary and the data requested. For students/researchers, the letter must be signed and endorsed by an adviser. </p>
+
+     <p> Requests for Orthophotos, LAZ, Digital Surface Models (DSM), and Digital Terrain Models (DTM) <b> must include a Polygon shapefile</b> generated from GIS Software or a browser based shapefile generation tool: <a href="https://lipad.dream.upd.edu.ph/click2shp/">Click2SHP</a>.</p>
+    <p>Valid shapefiles include all of the following filetypes:
+    <ul>
+        <li> .shp </li>
+        <li> .shx </li>
+        <li> .dbf </li>
+        <li> .prj </li>
+    </ul></p>
+   
+    <p> Incomplete data requests or requests that have information intentionally withheld will not be entertained.</p>
+
+    <p>The UP DREAM / PHIL-LiDAR Program doesn't provide data to private entities unless a formal letter is given in writing and is explicitly approved by the Program Leader. 
+Since this is a government-funded project, our products are only licensed for use academically, for research purposes, for LGUs and NGOs that have no commercial purpose for the data.</p>
+
+    <p>If you are partnering with a government agency/NGA/LGU for a project, please ask that GA/NGA/LGU to request data on your behalf. </p>
+
+    <p>If you still want to obtain data for private or commercial use, please contact our Business Development Officer at <a href="mailto:bdo@dream.upd.edu.ph">bdo[at]dream.upd.edu.ph</a></p> 
+
+    <p>Note: Some data requests will need approval from the Program Leader before the data request is processed.</p>
+
      {% endblocktrans %}
 </div>
 </div>

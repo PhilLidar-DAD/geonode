@@ -125,6 +125,9 @@ urlpatterns = patterns('',
                        #url(r'^maptiles/', TemplateView.as_view(template_name='maptiles.html'), name='maptiles'),
                        url(r'^unavailable/', TemplateView.as_view(template_name='maptiles.html'), name='unavailable'),
 
+                       #Click2SHP
+                       url(r'click2shp/', TemplateView.as_view(template_name='click2shp.html'), name='click2shp'),
+
                        # Meta
                        url(r'^lang\.js$', TemplateView.as_view(template_name='lang.js', content_type='text/javascript'),
                            name='lang'),

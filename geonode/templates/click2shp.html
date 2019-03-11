@@ -1,0 +1,44 @@
+{% extends "site_base.html" %}
+{% block extra_head %}
+    <link href="{{ STATIC_URL }}/geonode/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}/geonode/css/site_base.css" rel="stylesheet"/>
+    <link href="{{STATIC_URL}}/geonode/css/featured-layer.css" rel="stylesheet"/>
+{% endblock %}
+
+{% load i18n %}
+{% block title %} {% trans "Click2SHP" %} - {{ block.super }} {% endblock %}
+
+{% block body_outer %}
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css">
+      <link rel="stylesheet" type="text/css" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.css">
+      <script type="text/javascript" src="https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.EasyButton/2.4.0/easy-button.min.js"></script>
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+ <style id="compiled-css" type="text/css">
+      /* Map */
+      #map {
+         min-height: 92vh;
+      }
+      input {
+        margin-top:10px;
+      }
+      .easy-button-container {
+        background-color: white;
+      }
+      .easy-button-button.disabled{
+        visibility: hidden;
+      }
+    </style>
+ <div id="map"></div>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}/click2shp/bundle.js"></script>
+    <ol type="1">
+       <li> Click and drag the map around to move your area of interest to the view.</li>
+       <li> Zoom in to your area of interest using the + and - buttons or the mouse scroll wheel.</li>
+       <li> Click the Polygon button to start drawing a polygon. </li>
+       <li> Close the polygon by clicking the first point. </li>
+       <li> Click the download button to generate a zip file containing the shapefile of your area of interest. </li>
+       <li> Attach the zipped file of your shapefile to your data request </li>
+     </ol>
+{% endblock %}
