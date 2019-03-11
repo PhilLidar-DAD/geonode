@@ -124,6 +124,7 @@ urlpatterns = patterns('',
 					   url(r'^maptiles/',include("geonode.maptiles.urls")),
                        #url(r'^maptiles/', TemplateView.as_view(template_name='maptiles.html'), name='maptiles'),
                        url(r'^unavailable/', TemplateView.as_view(template_name='maptiles.html'), name='unavailable'),
+                       url(r'^unavailable2/', TemplateView.as_view(template_name='unavailable.html'), name='unavailable2'),
 
                        #Click2SHP
                        url(r'click2shp/', TemplateView.as_view(template_name='click2shp.html'), name='click2shp'),
