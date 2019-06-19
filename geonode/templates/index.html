@@ -72,7 +72,7 @@
         <h4 class="text-center">Total LiDAR Coverage</h4>
       </div>
 
-       <div class="col-md-4 border=0" style="">
+       <!-- <div class="col-md-4 border=0" style="">
         {% blocktrans %}
         <h4 style="margin-top:15px;">How to get data</h4>
         <p>
@@ -84,21 +84,21 @@
         <p>
         {% endblocktrans %}
       </div>
-
+ -->
       <div class="col-md-4 border=0" style="">
         {% blocktrans %}
         <h4 style="margin-top:15px;">Demo Videos</h4>
         <p>
-          <a data-toggle="modal" data-target="#modal-reg" href="">Register to LiPAD</a>
-          <br>
+        <!--   <a data-toggle="modal" data-target="#modal-reg" href="">Register to LiPAD</a> -->
+          <!-- <br> -->
           <a data-toggle="modal" data-target="#modal-fhm" href="">Download Flood Hazard Maps</a>
-        <br>
-          <a data-toggle="modal" data-target="#modal-data" href="">Download LiDAR Data Tiles</a>
+        <!-- <br>
+          <a data-toggle="modal" data-target="#modal-data" href="">Download LiDAR Data Tiles</a> -->
         </p>
         {% endblocktrans %}
       </div>
 
-      <div class="col-md-4 border=0" style="" >
+<!--       <div class="col-md-4 border=0" style="" >
 
         <h4 style="margin-top:15px; text-center">OGC Services</h4>
         <p>
@@ -113,10 +113,12 @@
         <p>
 
       </div>
+-->
+
     </div>
 
     <div class="col-md-6 pull-right row body-top">
-    {% include "phil-ext.html" %}
+    {% include "phil-ext2.html" %}
         <div id="preview_map" >
       </div>
       <li class="list-group-item legend">
@@ -127,10 +129,77 @@
           <p>{% get_public_location "%s" as pl %}<img id="legend_icon" src="/static/geonode/img/philgrid_legend.png"></p>
       </li>
     </div>
-
 </body>
 </div>
 
+<div class="container">
+<div>
+  <h2>{% trans "Registration and Data Tiles Module temporarily unavailable." %}</h2>
+</div>
+<div class="col-md-8 row">
+  <br>
+  <br>
+  <p> LiPAD is currently experiencing issues with Account Creation and its GeoServer backend. Our team is working to identify the issue and correct it. However, due to an understaffed team, we might take long to fix the issue.  We might also resort to redeployng LiPAD to another server to be able to update its dependencies and for more optimal performance. </p>
+
+  <p> We apologize for the inconvenience. Thank you for your usual support and understanding. </p>
+
+  {% blocktrans %}
+  <br id="manual-request">
+  <h3>Flood Hazard Maps</h3>
+  <p>Flood Hazard Maps are still available at the <a href="https://lipad-fmc.dream.upd.edu.ph/layers">LiPAD FMC website</a>, without registration. Please proceed to the subsite if you are interested on downloading Flood Hazard Maps. </p>
+
+  <h3>Manual Data Requests</h3>
+
+  <p> Since the portal is experiencing issues with account registration, may we request all data requests be coursed through our official e-mail address:  <a href="mailto:lipad@dream.upd.edu.ph">LiPAD Team &lt;lipad@dream.upd.edu.ph&gt;</a> with a subject of "[LiPAD] Data Request from (Your Name) / (Your organization or affiliation)". Kindly provide the following details on your e-mail:
+
+  <ol type="1">
+     <li> Full Name </li>
+     <li> Office / Organization </li>
+     <li> Organization Type - Local NGO / NGA - (Department) / Academic (Students/Researchers/Faculty/Foundations) / LGU / International NGO / PHIL-LiDAR SUC / Others </li>
+     <li> Local or foreign entity with respect to the Philippines </li>
+     <li> E-mail address </li>
+     <li> Contact Number </li>
+     <li> Project Name / Research or Dissertation Title</li>
+     <li> Project Summary / Research Abstract </li>
+     <li> Use/purpose of the data - DRRM, Planning, Management, Exploration, Mapping, others </li>
+     <li> Type of Data requested: LiDAR Orthophotos, LAZ, DSM, DTM Files, PHIL-LiDAR 2 Datasets, etc.</li>
+     <li> Intended Use of the data - Commercial or noncommercial</li>
+  </ol>
+
+  <p> Please attach a scanned <b>signed</b> formal letter addressed to: </p>
+
+  <span> Dr. Louie Balicanta &nbsp;</span><br/>
+  <span> Director, UP Training Center for Applied Photogrammetry and Geodesy&nbsp;</span><br/>
+  <span> 312-316 National Engineering Center, Juinio Hall&nbsp;</span><br/>
+  <span> University of the Philippines, Diliman, Quezon City &nbsp;</span><br/>
+  <br/<
+  <p> State your intent to request data, project background/summary and the data requested. For students/researchers, the letter must be signed and endorsed by an adviser. </p>
+
+   <p> Requests for Orthophotos, LAZ, Digital Surface Models (DSM), and Digital Terrain Models (DTM) <b> must include a Polygon shapefile</b> generated from GIS Software or a browser based shapefile generation tool: <a href="https://lipad.dream.upd.edu.ph/click2shp/">Click2SHP</a>.</p>
+  <p>Valid shapefiles include all of the following filetypes:
+  <ul>
+      <li> .shp </li>
+      <li> .shx </li>
+      <li> .dbf </li>
+      <li> .prj </li>
+  </ul></p>
+
+  <p> Incomplete data requests or requests that have information intentionally withheld will not be entertained.</p>
+
+  <p>The UP DREAM / PHIL-LiDAR Program doesn't provide data to private entities unless a formal letter is given in writing and is explicitly approved by the Program Leader.
+Since this is a government-funded project, our products are only licensed for use academically, for research purposes, for LGUs and NGOs that have no commercial purpose for the data.</p>
+
+  <p>If you are partnering with a government agency/NGA/LGU for a project, please ask that GA/NGA/LGU to request data on your behalf. </p>
+
+  <p>If you still want to obtain data for private or commercial use, please contact our Business Development Officer at <a href="mailto:bdo@dream.upd.edu.ph">bdo[at]dream.upd.edu.ph</a></p>
+
+  <p>Note: Some data requests will need approval from the Program Leader before the data request is processed.</p>
+
+   {% endblocktrans %}
+</div>
+
+<div>
+<!--
 <div class="modal fade" id="modal-reg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -147,7 +216,7 @@
     </div>
   </div>
 </div>
-
+ -->
 <div class="modal fade" id="modal-fhm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -165,7 +234,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="modal-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="modal-data" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -181,17 +250,18 @@
     </div>
   </div>
 </div>
-
-{% include "_modal_announcements.html" %}
+ -->
+<!-- {% include "_modal_announcements.html" %} -->
   {% endblock %}
 
-  {% block mainbody %}
+{% block mainbody %}
 
 {% endblock %}
-{% block extra_script %}
+<!-- {% block extra_script %}
   <script type="text/javascript">
     $(window).load(function(){
         $('#modal-announcements').modal('toggle');
     });
   </script>
 {% endblock extra_script %}
+ -->

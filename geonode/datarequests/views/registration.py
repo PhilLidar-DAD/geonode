@@ -419,7 +419,8 @@ def email_verification_confirm(request):
                             profile_request.data_request.save()
                             profile_request.data_request.set_status('approved')
                             profile_request.data_request.send_approval_email(profile_request.data_request.profile.username)
-                            pprint(request, "Request "+str(profile_request.data_request.pk)+" has been approved.")
+                            #messages.info(request, "Request "+str(profile_request.data_request.pk)+" has been approved.")
+                            #pprint(request, "Request "+str(profile_request.data_request.pk)+" has been approved.")
                         profile_request.send_approval_email()
 
                 pprint(email+" "+profile_request.status)

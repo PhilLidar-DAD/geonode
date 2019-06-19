@@ -76,7 +76,8 @@
                   <li id="nav_datastore" class="dropdown">
                       <a tabindex="0" href="/maptiles/" class="dropdown-toggle js-activated" data-toggle="dropdown" data-submenu>Data Store <span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <li><a href="/maptiles/">Data Tiles</a></li>
+                        <!-- <li><a href="/maptiles/">Data Tiles</a></li> -->
+                        <li><a href="https://lipad.dream.upd.edu.ph/#manual-request">Data Tiles</a></li>
                         <li class="dropdown-submenu"><a tabindex="0" href="/layers/">Layers</a>
                           <ul class="dropdown-menu">
                             {% if LOCALURL in request.build_absolute_uri %}
@@ -142,7 +143,8 @@
           </form>
           <ul class="nav navbar-nav navbar-right">
             {% if not user.is_authenticated  %}
-            <li><a href="{% url 'datarequests:profile_request_form' %}">{% trans "Register" %}</a></li>
+            <!-- <li><a href="{% url 'datarequests:profile_request_form' %}">{% trans "Register" %}</a></li> -->
+            <li><a href="https://lipad.dream.upd.edu.ph/#manual-request">{% trans "Register" %}</a></li>
             {% elif not user.is_superuser %}
             <li><a href="{% url 'datarequests:profile_request_form' %}">{% trans "Request New Data" %}</a></li>
             {% endif %}
