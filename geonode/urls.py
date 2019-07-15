@@ -53,8 +53,8 @@ sitemaps = {
 urlpatterns = patterns('',
 
                        # Static pages
-                       url(r'^/?$', RedirectView.as_view(url='http://lipad.dream.upd.edu.ph')),
-                    #    url(r'^/?$', TemplateView.as_view(template_name='index.html'), name='home'),
+                       #url(r'^/?$', RedirectView.as_view(url='http://lipad.dream.upd.edu.ph')),
+                       url(r'^/?$', TemplateView.as_view(template_name='index.html'), name='home'),
                     #    url(r'^/?$', 'geonode.views.philgrid', name='home'),
                        url(r'^help/$', TemplateView.as_view(template_name='help.html'), name='help'),
                        url(r'^developer/$', TemplateView.as_view(template_name='developer.html'), name='developer'),
