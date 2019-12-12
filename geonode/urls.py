@@ -109,6 +109,7 @@ urlpatterns = patterns('',
                        (r'^geocoding/',include('geonode.arealocate.urls',namespace='arealocate')),
 
                        # Data Request Profiles
+                       # Resolve /requests/register/profile_request, proceed to datarequests/urls.py
                        (r'^requests/', include('geonode.datarequests.urls', namespace='datarequests')),
 
                        # Misc
