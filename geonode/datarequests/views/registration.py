@@ -278,6 +278,7 @@ def data_request_view(request):
                 data_request_obj.save()
                 data_request_obj.set_status("pending")
             # user is not authenticated, users should no longer be able to access this
+            '''
             else:
                 request_letter = create_letter_document(details_form.clean()['letter_file'], profile_request = profile_request_obj)
                 data_request_obj.request_letter = request_letter
@@ -288,6 +289,7 @@ def data_request_view(request):
                 profile_request_get = ProfileRequest.objects.get(id=profile_request_obj.id)
                 profile_request_get.data_request= data_request_obj
                 profile_request_get.save()
+            '''
             data_request_obj.save()
             if saved_layer:
                 data_request_obj.jurisdiction_shapefile = saved_layer
@@ -300,6 +302,7 @@ def data_request_view(request):
             # an unauthenticated user or user done with registration but email not verified
             if profile_request_obj and not request.user.is_authenticated():
             #    request_data.send_verification_email()
+            #    this autoapprove the data request object, instead proceed to email send page
                 """
                 if profile_request_get.status == "approved":
                     # autoapproves data request object if profile's status is approvied
@@ -324,9 +327,9 @@ def data_request_view(request):
 
             elif request.user.is_authenticated():
                 messages.info(request, "Your request has been submitted")
-                out['success_url'] = reverse('home')
+                out['success_url'] = reverse('datarequests:data_request_success')
 
-                out['redirect_to'] = reverse('home')
+                out['redirect_to'] = reverse('datarequests:data_request_success')
 
                 data_request_obj.profile = request.user
 
@@ -384,6 +387,17 @@ def email_verification_send(request):
         context
     )
 
+def data_request_success(request):
+
+    context = {
+        'support_email': settings.LIPAD_SUPPORT_MAIL,
+    }
+    return render(
+        request,
+        'datarequests/registration/data_request_submit.html',
+        context
+    )
+    
 def email_verification_confirm(request):
     key = request.GET.get('key', None)
     email = request.GET.get('email', None)
@@ -450,6 +464,7 @@ def email_verification_confirm(request):
                     else:
                         profile_request.set_status('approved')
                         # This should never trigger, as data_request can't be accessed
+                        '''
                         if profile_request.data_request:
                             profile_request.data_request.profile = profile_request.profile
 
@@ -466,6 +481,7 @@ def email_verification_confirm(request):
                             profile_request.data_request.set_status('approved')
                             profile_request.data_request.send_approval_email(profile_request.data_request.profile.username)
                             pprint(request, "Request "+str(profile_request.data_request.pk)+" has been approved.")
+                        '''
                         profile_request.send_approval_email()
 
                 pprint(email+" "+profile_request.status)

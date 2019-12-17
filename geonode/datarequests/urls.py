@@ -55,6 +55,8 @@ urlpatterns = patterns(
     url(r'^data/(?P<pk>\d+)/approve/$', 'data_request_approve', name="data_request_approve"),
     url(r'^data/(?P<pk>\d+)/reject/$', 'data_request_reject', name="data_request_reject"),
     url(r'^data/(?P<pk>\d+)/cancel/$', 'data_request_cancel', name="data_request_cancel"),
+    # data request landing page
+    url(r'^data/request_success/$', 'data_request_success', name='data_request_success'),
 
     url(r'^data/(?P<pk>\d+)/compute_request_size/$', 'data_request_compute_size', name="data_request_compute_size"),
     url(r'^data/(?P<pk>\d+)/tag_suc/$', 'data_request_tag_suc', name="data_request_tag_suc"),
